@@ -12,9 +12,10 @@ def gemspec
 end
 
 require 'rubygems/package_task'
+
 desc "Build the gem"
 task :package=>:gem
-task :gem=>:gemspec do
+task :gem=>:ext do
   Dir.chdir(ROOT_DIR) do
     sh "gem build #{Gemspec_filename}"
     FileUtils.mkdir_p 'pkg'
