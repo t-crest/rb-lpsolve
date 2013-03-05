@@ -154,6 +154,9 @@ class TestLPSolve < Test::Unit::TestCase
     assert_equal(1,      @lp.solutioncount)
     @lp = nil
     filter = Proc.new{|got_lines, correct_lines|
+      [got_lines[30]].flatten.each do |s|
+        s.sub!(/-4.00000000/,'-4')
+      end
       [got_lines[49]].flatten.each do |s|
         s.sub!(/-1e[+]30\s+.*\s+-1e[+]30/, "-1e+30\t\t0.0\t\t-1e+30")
       end
