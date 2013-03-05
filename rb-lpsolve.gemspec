@@ -4,6 +4,8 @@ require 'rake'
 require 'rubygems' unless 
   Object.const_defined?(:Gem)
 
+include Rake::DSL
+
 LPSOLVE_VERSION = open("VERSION").read.chomp
 PKG_NAME = 'lpsolve'
 

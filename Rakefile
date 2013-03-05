@@ -2,7 +2,9 @@
 # -*- Ruby -*-
 require 'rubygems'
 require 'fileutils'
+require 'rubygems/package_task'
 
+GEM=ENV['GEM'] || "gem"
 Gemspec_filename='rb-lpsolve.gemspec'
 
 ROOT_DIR = File.dirname(__FILE__)
@@ -11,22 +13,16 @@ def gemspec
   @gemspec ||= eval(File.read(Gemspec_filename), binding, Gemspec_filename)
 end
 
-require 'rubygems/package_task'
 
-desc "Build the gem"
-task :package=>:gem
-task :gem=>:ext do
-  Dir.chdir(ROOT_DIR) do
-    sh "gem build #{Gemspec_filename}"
-    FileUtils.mkdir_p 'pkg'
-    FileUtils.mv("#{gemspec.file_name}", "pkg/")
-  end
+Gem::PackageTask.new(gemspec) do |pkg|
+    pkg.need_tar = true
 end
+task :package => :gem
 
 desc "Install the gem locally"
 task :install => :gem do
   Dir.chdir(ROOT_DIR) do
-    sh %{gem install --local pkg/#{gemspec.file_name}}
+    sh %{#{GEM} install --local pkg/#{gemspec.file_name}}
   end
 end
 
