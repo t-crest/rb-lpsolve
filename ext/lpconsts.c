@@ -14,7 +14,11 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include <ruby.h>
+#ifdef HAVE_LP_LIB_H
+#include <lp_lib.h>
+#else
 #include <lpsolve/lp_lib.h>
+#endif
 
 extern VALUE rb_cLPSolve;
 

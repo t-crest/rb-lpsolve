@@ -15,9 +15,13 @@
 */
 #include <ruby.h>
 #include <stdio.h>
+#ifdef HAVE_LP_LIB_H
+#include <lp_lib.h>
+#include <lp_report.h>
+#else
 #include <lpsolve/lp_lib.h>
 #include <lpsolve/lp_report.h>
-
+#endif
 /** \file lpsolve.c
  *
  *  \brief Provides Ruby access to lpsolve.
@@ -2801,7 +2805,11 @@ void Init_lpsolve()
 
 
 /* A revised version of print_lp or REPORT_lp. */
+#ifdef HAVE_LP_LIB_H
+#include <lp_report.h>
+#else
 #include <lpsolve/lp_report.h>
+#endif
 void print(lprec *lp)
 {
   int  i, j;
